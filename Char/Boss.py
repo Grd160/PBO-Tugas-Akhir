@@ -1,17 +1,27 @@
 import pygame
 import time
 from Char.Enemy import Enemy
+from Char.Character import Character
 from Setting import *
 from Object.Bullet import Bullet
+
+BOSS_WIDTH  = 220
+BOSS_HEIGHT = 100
 
 class Boss(Enemy):
     def __init__(self, x, y):
         super().__init__(x, y)
 
-        self.set_hp(5000)
+        self._rect = pygame.Rect(x, y, BOSS_WIDTH, BOSS_HEIGHT)
+        self.__max_hp = 5000
+        self.set_hp(self.__max_hp)
         self._speed = 3
         self.__direction = 1
         self.__last_shot = 0
+
+    def set_hp(self, hp):
+        super().set_hp(hp)
+        self.__max_hp = hp
 
     def move(self, player=None):
         self._rect.x += self._speed * self.__direction
@@ -46,7 +56,8 @@ class Boss(Enemy):
             100
         ))
 
-        hp_width = (self.get_hp() / 5000) * 400
+        hp_ratio = max(0, self.get_hp() / self.__max_hp)
+        hp_width = hp_ratio * 400
 
         pygame.draw.rect(screen, RED, (430, 20, 400, 20))
         pygame.draw.rect(screen, GREEN, (430, 20, hp_width, 20))
