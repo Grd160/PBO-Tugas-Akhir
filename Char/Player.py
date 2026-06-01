@@ -27,7 +27,7 @@ class Player(Character):
 
     def jump(self):
         if self._on_ground:
-            self._vel_y = -15
+            self._vel_y = -18
             self._on_ground = False
 
     def attack(self, bullets, target_pos):
