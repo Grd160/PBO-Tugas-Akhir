@@ -12,6 +12,10 @@ class Player(Character):
         self.__upgrade_timer = 0
         self.__laser_active = False
 
+        self.__damage_bonus = 0
+        self.__fire_rate_bonus = 0.0
+        self.__max_hp = 100
+
     def move(self, keys=None):
         if keys[pygame.K_a]:
             self._rect.x -= self._speed
@@ -69,3 +73,21 @@ class Player(Character):
 
     def get_weapon(self):
         return self.__weapon
+    
+    def set_damage_bonus(self, bonus):
+        self.__damage_bonus = bonus
+ 
+    def get_damage_bonus(self):
+        return self.__damage_bonus
+ 
+    def set_fire_rate_bonus(self, bonus):
+        self.__fire_rate_bonus = bonus
+ 
+    def get_fire_rate_bonus(self):
+        return self.__fire_rate_bonus
+ 
+    def set_max_hp(self, max_hp):
+        self.__max_hp = max_hp
+ 
+    def get_max_hp(self):
+        return self.__max_hp

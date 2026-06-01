@@ -10,6 +10,10 @@ class Enemy(Character):
         super().__init__(x, y, 50, 70, 100, 2)
         self.__fire_rate = 1.2
         self.__last_shot = 0
+        
+        self.__patrol_origin = x
+        self.__patrol_range = 120
+        self.__patrol_direction = 1
 
     def move(self, player=None):
         px = player.get_rect().centerx
@@ -19,14 +23,27 @@ class Enemy(Character):
         ey = self._rect.centery
 
         distance = abs(px - ex)
+        in_sight = distance < WIDTH and abs(py - ey) < 100
 
-        if distance < WIDTH and abs(py - ey) < 100:
+        if in_sight:
             if px > ex:
                 self._rect.x += self._speed
                 self._direction = 1
+
             else:
                 self._rect.x -= self._speed
                 self._direction = -1
+
+        else:
+            self._rect.x += self._speed * self.__patrol_direction
+
+            if self._rect.x >= self.__patrol_origin + self.__patrol_range:
+                self.__patrol_direction = -1
+
+            elif self._rect.x <= self.__patrol_origin - self.__patrol_range:
+                self.__patrol_direction = 1
+
+            self._direction = self.__patrol_direction
 
     def attack(self, bullets, player):
         px = player.get_rect().centerx
@@ -47,6 +64,9 @@ class Enemy(Character):
                 dy = math.sin(angle) * 7
 
                 bullets.append(Bullet(ex, ey, dx, dy, 10, self, RED))
+
+    def set_fire_rate(self, rate):
+        self.__fire_rate = rate
 
     def draw(self, screen, camera_x):
         pygame.draw.rect(screen, RED, (
