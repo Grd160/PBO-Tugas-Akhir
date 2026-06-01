@@ -110,7 +110,7 @@ while running:
                 rect = Obstacle.get_rect()
 
                 if player.get_rect().colliderect(rect):
-                    if player._vel_y > 0 and player.get_rect().bottom - player._vel_y <= rect.top:
+                    if player._vel_y > 0 and player.get_rect().bottom - player._vel_y <= rect.top+15:
                         player.get_rect().bottom = rect.top
                         player._vel_y = 0
                         player._on_ground = True
@@ -123,7 +123,7 @@ while running:
 
                 for enemy in enemies:
                     if enemy.get_rect().colliderect(rect):
-                        if enemy._vel_y > 0 and enemy.get_rect().bottom - enemy._vel_y <= rect.top:
+                        if enemy._vel_y > 0 and enemy.get_rect().bottom - enemy._vel_y <= rect.top+15:
                             enemy.get_rect().bottom = rect.top
                             enemy._vel_y = 0
                             enemy._on_ground = True
