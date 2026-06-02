@@ -15,6 +15,17 @@ class Enemy(Character):
         self.__patrol_range = 120
         self.__patrol_direction = 1
 
+        raw_frames = [
+            pygame.image.load("Assets/Enemy/enemyWalking_1.png").convert_alpha(),
+            pygame.image.load("Assets/Enemy/enemyWalking_2.png").convert_alpha(),
+        ]
+        self.__frames = [
+            pygame.transform.scale(f, (self._rect.width, self._rect.height)) for f in raw_frames]
+
+        self.__frame_index = 0.0
+        self.__anim_speed  = 0.1
+        self.__is_moving   = False
+
     def move(self, player=None):
         px = player.get_rect().centerx
         py = player.get_rect().centery
@@ -69,9 +80,16 @@ class Enemy(Character):
         self.__fire_rate = rate
 
     def draw(self, screen, camera_x):
-        pygame.draw.rect(screen, RED, (
-            self._rect.x - camera_x,
-            self._rect.y,
-            self._rect.width,
-            self._rect.height
-        ))
+        if self.__is_moving:
+            self.__frame_index += self.__anim_speed
+            if self.__frame_index >= len(self.__frames):
+                self.__frame_index = 0.0
+        else:
+            self.__frame_index = 0.0
+ 
+        frame = self.__frames[int(self.__frame_index)]
+
+        if self._direction == -1:
+            frame = pygame.transform.flip(frame, True, False)
+ 
+        screen.blit(frame, (self._rect.x - camera_x, self._rect.y))

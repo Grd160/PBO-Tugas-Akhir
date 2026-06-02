@@ -16,8 +16,8 @@ class Player(Character):
         self.__fire_rate_bonus = 0.0
         self.__max_hp = 100
         self.run_frames = [
-            pygame.image.load("Assets/jalan1.png").convert_alpha(),
-            pygame.image.load("Assets/jalan2.png").convert_alpha()
+            pygame.image.load("Assets/Player/jalan1.png").convert_alpha(),
+            pygame.image.load("Assets/Player/jalan2.png").convert_alpha()
         ]
         
         # Paskan ukuran gambar dengan kotak (hitbox) karaktermu

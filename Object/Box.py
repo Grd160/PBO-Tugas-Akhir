@@ -7,13 +7,18 @@ class Box(Obstacle):
         super().__init__(x, y, 50, 50)
         self.__hp = 50
 
+        self.image = pygame.image.load("Assets/Box/RTS_Crate.png").convert_alpha()
+
+        self.image = pygame.transform.scale(
+            self.image,
+            (self._rect.width, self._rect.height)
+        )
+
     def draw(self, screen, camera_x):
-        pygame.draw.rect(screen, ORANGE, (
-            self._rect.x - camera_x,
-            self._rect.y,
-            self._rect.width,
-            self._rect.height
-        ))
+        screen.blit(
+            self.image,
+            (self._rect.x - camera_x, self._rect.y)
+        )
 
     def update(self):
         pass
