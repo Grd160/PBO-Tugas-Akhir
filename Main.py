@@ -18,6 +18,15 @@ clock = pygame.time.Clock()
 
 pygame.display.set_caption("Shooter Game")
 
+background = pygame.image.load(
+    "Assets/background/bg.png"
+).convert()
+
+background = pygame.transform.scale(
+    background,
+    (WIDTH, HEIGHT)
+)
+
 font = pygame.font.SysFont(None, 72)
 small_font = pygame.font.SysFont(None, 36)
 
@@ -88,7 +97,7 @@ while running:
         menu.draw()
 
     elif state == STATE_GAME:
-        screen.fill((40, 40, 60))
+        screen.blit(background, (0, 0))
 
         if not levelup.pending_levelup:
             keys          = pygame.key.get_pressed()
@@ -110,16 +119,13 @@ while running:
                 rect = Obstacle.get_rect()
 
                 if player.get_rect().colliderect(rect):
-                    if player._vel_y > 0 and player.get_rect().bottom - player._vel_y <= rect.top+15:
+                    if (
+                        player._vel_y > 0
+                        and player.get_rect().bottom - player._vel_y <= rect.top
+                    ):
                         player.get_rect().bottom = rect.top
                         player._vel_y = 0
                         player._on_ground = True
-
-                    elif player._direction == 1:
-                            player.get_rect().right = rect.left
-
-                    elif player._direction == -1:
-                            player.get_rect().left = rect.right
 
                 for enemy in enemies:
                     if enemy.get_rect().colliderect(rect):
