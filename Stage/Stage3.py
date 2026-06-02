@@ -45,6 +45,6 @@ class Stage3:
         ]
 
          
-        boss = Boss(5000, 580) 
+        boss = Boss(5000, 580, 120) 
 
         return platforms, boxes, enemies, boss

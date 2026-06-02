@@ -10,17 +10,19 @@ class Platform(Obstacle):
             "Assets/Patform/tileset.png"
         ).convert_alpha()
 
-        # Sesuaikan ukuran gambar dengan ukuran platform
-        self.image = pygame.transform.scale(
-            self.image,
-            (width, height)
-        )
-
     def draw(self, screen, camera_x):
-        screen.blit(
-            self.image,
-            (self._rect.x - camera_x, self._rect.y)
-        )
+        tile_width = self.image.get_width()
+        tile_height = self.image.get_height()
+
+        # Ulangi gambar sepanjang platform
+        for x in range(0, self._rect.width, tile_width):
+            screen.blit(
+                self.image,
+                (
+                    self._rect.x - camera_x + x,
+                    self._rect.y
+                )
+            )
 
     def update(self):
         pass

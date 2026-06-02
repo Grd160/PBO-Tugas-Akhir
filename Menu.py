@@ -118,7 +118,7 @@ class MainMenu:
         title = self.font_title.render("SHOOTER GAME", True, YELLOW)
         self.screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 160))
 
-        sub = self.font_small.render("by Kelompok 4", True, (120, 120, 160))
+        sub = self.font_small.render("by Kelompok 3", True, (120, 120, 160))
         self.screen.blit(sub, (WIDTH // 2 - sub.get_width() // 2, 265))
 
         for i, (label, rect) in enumerate(zip(self.main_items, self._main_rects())):

@@ -14,13 +14,20 @@ class Upgrade:
             LaserWeapon
         ])
 
+        self.image = pygame.image.load(
+            "Assets/Upgrade/yellowCrystal.png"
+        ).convert_alpha()
+
+        self.image = pygame.transform.scale(
+            self.image,
+            (self.rect.width, self.rect.height)
+        )
+
     def draw(self, screen, camera_x):
-        pygame.draw.rect(screen, YELLOW, (
-            self.rect.x - camera_x,
-            self.rect.y,
-            self.rect.width,
-            self.rect.height
-        ))
+        screen.blit(
+            self.image,
+            (self.rect.x - camera_x, self.rect.y)
+        )
 
     def get_weapon(self):
         return self.weapon_type()

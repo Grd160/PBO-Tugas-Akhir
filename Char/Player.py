@@ -31,7 +31,6 @@ class Player(Character):
         # --------------------------
 
     def move(self, keys=None):
-        
 
         if keys[pygame.K_a]:
             self._rect.x -= self._speed
