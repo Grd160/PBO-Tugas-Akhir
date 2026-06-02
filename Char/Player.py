@@ -15,8 +15,24 @@ class Player(Character):
         self.__damage_bonus = 0
         self.__fire_rate_bonus = 0.0
         self.__max_hp = 100
+        self.run_frames = [
+            pygame.image.load("Assets/jalan1.png").convert_alpha(),
+            pygame.image.load("Assets/jalan2.png").convert_alpha()
+        ]
+        
+        # Paskan ukuran gambar dengan kotak (hitbox) karaktermu
+        for i in range(len(self.run_frames)):
+            self.run_frames[i] = pygame.transform.scale(self.run_frames[i], (self._rect.width, self._rect.height))
+            
+        self.frame_index = 0
+        self.animation_speed = 0.1 # Kecepatan pergantian kaki
+        self.is_moving = False
+        self.image = self.run_frames[0]
+        # --------------------------
 
     def move(self, keys=None):
+        
+
         if keys[pygame.K_a]:
             self._rect.x -= self._speed
             self._direction = -1
@@ -24,6 +40,11 @@ class Player(Character):
         if keys[pygame.K_d]:
             self._rect.x += self._speed
             self._direction = 1
+
+        if keys[pygame.K_a] or keys[pygame.K_d] or keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]:
+            self.is_moving = True
+        else:
+            self.is_moving = False    
 
     def jump(self):
         if self._on_ground:
@@ -34,12 +55,24 @@ class Player(Character):
         self.__weapon.shoot(self, bullets, target_pos)
 
     def draw(self, screen, camera_x):
-        pygame.draw.rect(screen, BLUE, (
-            self._rect.x - camera_x,
-            self._rect.y,
-            self._rect.width,
-            self._rect.height
-        ))
+       
+        # 1. Atur pergantian gambar jika sedang jalan
+        if self.is_moving:
+            self.frame_index += self.animation_speed
+            if self.frame_index >= len(self.run_frames):
+                self.frame_index = 0
+            self.image = self.run_frames[int(self.frame_index)]
+        else:
+            self.image = self.run_frames[0] # Kembali ke posisi diam
+            self.frame_index = 0
+
+        # 2. Balik gambar (hadap kiri) jika direction = -1
+        current_image = self.image
+        if self._direction == -1:
+            current_image = pygame.transform.flip(self.image, True, False)
+
+        # 3. Tampilkan ke layar
+        screen.blit(current_image, (self._rect.x - camera_x, self._rect.y))
 
         hp_width = self.get_hp() * 2
         pygame.draw.rect(screen, RED, (20, 20, 200, 20))
